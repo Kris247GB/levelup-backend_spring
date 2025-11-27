@@ -56,4 +56,14 @@ public class ProductoController {
     public void delete(@PathVariable Long id) {
         service.delete(id);
     }
+
+    @GetMapping("/categorias")
+    public List<String> categorias() {
+        return productoRepository.findAll()
+                .stream()
+                .map(Producto::getCategoria)
+                .distinct()
+                .toList();
+    }
+
 }
