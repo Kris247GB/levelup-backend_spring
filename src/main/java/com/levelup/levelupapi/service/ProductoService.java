@@ -44,12 +44,22 @@ public class ProductoService {
         original.setImagen(p.getImagen());
         original.setDescripcion(p.getDescripcion());
         original.setStock(p.getStock());
-        original.setDestacado(p.isDestacado());
+        original.setDestacado(p.getDestacado()); // ← CORREGIDO
 
         return repo.save(original);
     }
 
     public void delete(Long id) {
         repo.deleteById(id);
+    }
+
+    public List<String> listarCategorias() {
+        return repo.findAll()
+                .stream()
+                .map(Producto::getCategoria)
+                .filter(c -> c != null && !c.isBlank())
+                .distinct()
+                .sorted()
+                .toList();
     }
 }

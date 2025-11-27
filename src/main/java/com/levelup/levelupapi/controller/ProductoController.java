@@ -3,12 +3,12 @@ package com.levelup.levelupapi.controller;
 import com.levelup.levelupapi.model.Producto;
 import com.levelup.levelupapi.service.ProductoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/productos")
@@ -58,12 +58,8 @@ public class ProductoController {
     }
 
     @GetMapping("/categorias")
+    @Operation(summary = "Obtener categorías disponibles")
     public List<String> categorias() {
-        return productoRepository.findAll()
-                .stream()
-                .map(Producto::getCategoria)
-                .distinct()
-                .toList();
+        return service.listarCategorias();
     }
-
 }
