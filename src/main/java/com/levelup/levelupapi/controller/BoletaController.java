@@ -31,4 +31,10 @@ public class BoletaController {
     public Boleta obtener(@PathVariable Long id) {
         return service.obtenerBoleta(id);
     }
+
+    @GetMapping("/usuario/{email}")
+    public List<Boleta> buscarPorUsuario(@PathVariable String email) {
+        return service.buscarPorUsuario(email);
+    }
+
 }

@@ -26,4 +26,9 @@ public class BoletaService {
     public List<Boleta> listar() {
         return repo.findAll();
     }
+
+    public List<Boleta> buscarPorUsuario(String email) {
+        return repo.findByEmailUsuario(email);
+    }
+
 }
