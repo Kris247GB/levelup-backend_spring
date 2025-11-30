@@ -39,4 +39,9 @@ public class ComentarioComunidad {
 
     public List<String> getRespuestas() { return respuestas; }
     public void setRespuestas(List<String> respuestas) { this.respuestas = respuestas; }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
+    }
+
 }
