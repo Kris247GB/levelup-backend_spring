@@ -17,23 +17,23 @@ public class BoletaService {
     }
 
     public List<Boleta> listar() {
-        return boletaRepository.findAll();  // Devolvemos todas las boletas
+        return boletaRepository.findAll();
     }
 
     public Boleta obtenerBoleta(Long id) {
         return boletaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No se encontró la boleta con ID: " + id)); // Lanza la excepción si no se encuentra
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró la boleta con ID: " + id));
     }
 
     public List<Boleta> buscarPorUsuario(String email) {
         List<Boleta> boletas = boletaRepository.findByEmailUsuario(email);
         if (boletas == null || boletas.isEmpty()) {
-            throw new ResourceNotFoundException("No se encontraron boletas para el usuario: " + email); // Lanza la excepción si no hay boletas
+            throw new ResourceNotFoundException("No se encontraron boletas para el usuario: " + email);
         }
         return boletas;
     }
 
     public Boleta crearBoleta(Boleta boleta) {
-        return boletaRepository.save(boleta);  // Guardamos la boleta
+        return boletaRepository.save(boleta);
     }
 }
