@@ -1,7 +1,9 @@
 package com.levelup.levelupapi.controller;
 
 import com.levelup.levelupapi.model.Producto;
+import com.levelup.levelupapi.model.Comentario;  // Asegúrate de tener la clase Comentario importada
 import com.levelup.levelupapi.service.ProductoService;
+import com.levelup.levelupapi.service.ComentarioService;  // Asegúrate de tener el servicio de Comentario
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,9 +18,11 @@ import java.util.List;
 public class ProductoController {
 
     private final ProductoService service;
+    private final ComentarioService comentarioService;  // Agregar el servicio de comentarios
 
-    public ProductoController(ProductoService service) {
+    public ProductoController(ProductoService service, ComentarioService comentarioService) {
         this.service = service;
+        this.comentarioService = comentarioService;
     }
 
     @GetMapping
@@ -61,5 +65,19 @@ public class ProductoController {
     @Operation(summary = "Obtener categorías disponibles", description = "Retorna una lista de las categorías disponibles para los productos en la tienda.")
     public List<String> categorias() {
         return service.listarCategorias();
+    }
+
+    // 🚀 Nuevo endpoint para obtener comentarios de un producto
+    @GetMapping("/{productoId}/comentarios")
+    @Operation(summary = "Obtener comentarios de un producto", description = "Retorna los comentarios de un producto específico.")
+    public List<Comentario> obtenerComentarios(@PathVariable Long productoId) {
+        return comentarioService.obtenerComentariosPorProducto(productoId);
+    }
+
+    // 🚀 Nuevo endpoint para agregar un comentario a un producto
+    @PostMapping("/{productoId}/comentarios")
+    @Operation(summary = "Agregar un comentario a un producto", description = "Permite agregar un comentario a un producto específico.")
+    public Comentario agregarComentario(@PathVariable Long productoId, @RequestBody Comentario comentario) {
+        return comentarioService.agregarComentario(productoId, comentario);
     }
 }
