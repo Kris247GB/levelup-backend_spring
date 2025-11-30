@@ -80,4 +80,16 @@ public class ProductoController {
     public Comentario agregarComentario(@PathVariable Long productoId, @RequestBody Comentario comentario) {
         return comentarioService.agregarComentario(productoId, comentario);
     }
+    // ❤️ LIKE A UN COMENTARIO
+    @PostMapping("/comentarios/{id}/like")
+    public Comentario likeComentario(@PathVariable Long id) {
+        return comentarioService.agregarLike(id);
+    }
+
+    // 💬 RESPUESTA A UN COMENTARIO
+    @PostMapping("/comentarios/{id}/respuesta")
+    public Comentario responderComentario(@PathVariable Long id, @RequestBody String respuesta) {
+        return comentarioService.agregarRespuesta(id, respuesta);
+    }
+
 }
