@@ -1,60 +1,33 @@
 package com.levelup.levelupapi.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
-@Entity  // Asegúrate de agregar esta anotación
+@Entity
 public class Comentario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long productoId;  // ID del producto al que pertenece el comentario
-    private String texto;     // El contenido del comentario
-    private Integer rating;   // Calificación (1-5 estrellas)
-    private String fecha;     // Fecha del comentario
+    private String texto;
+    private Integer rating;
 
-    // Getters y Setters
-    public Long getId() {
-        return id;
-    }
+    private LocalDateTime fecha = LocalDateTime.now();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "producto_id")
+    private Producto producto;
 
-    public Long getProductoId() {
-        return productoId;
-    }
+    public Long getId() { return id; }
+    public String getTexto() { return texto; }
+    public void setTexto(String texto) { this.texto = texto; }
 
-    public void setProductoId(Long productoId) {
-        this.productoId = productoId;
-    }
+    public Integer getRating() { return rating; }
+    public void setRating(Integer rating) { this.rating = rating; }
 
-    public String getTexto() {
-        return texto;
-    }
+    public LocalDateTime getFecha() { return fecha; }
 
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
-
-    public Integer getRating() {
-        return rating;
-    }
-
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
+    public Producto getProducto() { return producto; }
+    public void setProducto(Producto producto) { this.producto = producto; }
 }
