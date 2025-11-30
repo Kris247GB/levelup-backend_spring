@@ -1,12 +1,21 @@
 package com.levelup.levelupapi.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity  // Asegúrate de agregar esta anotación
 public class Comentario {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long productoId; // ID del producto al que pertenece el comentario
-    private String texto;    // El contenido del comentario
-    private Integer rating;  // Calificación (1-5 estrellas)
-    private String fecha;    // Fecha del comentario (puedes usar LocalDateTime si prefieres)
+
+    private Long productoId;  // ID del producto al que pertenece el comentario
+    private String texto;     // El contenido del comentario
+    private Integer rating;   // Calificación (1-5 estrellas)
+    private String fecha;     // Fecha del comentario
 
     // Getters y Setters
     public Long getId() {
