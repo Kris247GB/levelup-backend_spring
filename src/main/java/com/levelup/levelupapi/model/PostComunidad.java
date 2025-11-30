@@ -13,6 +13,7 @@ public class PostComunidad {
     private String autor;   // nombre o email del usuario
     private String titulo;  // encabezado del post
     private String contenido;
+    private int likes = 0;
 
     private LocalDateTime fecha = LocalDateTime.now();
 
@@ -27,6 +28,9 @@ public class PostComunidad {
 
     public String getContenido() { return contenido; }
     public void setContenido(String contenido) { this.contenido = contenido; }
+
+    public int getLikes() { return likes; }
+    public void setLikes(int likes) { this.likes = likes; }
 
     public LocalDateTime getFecha() { return fecha; }
 }
