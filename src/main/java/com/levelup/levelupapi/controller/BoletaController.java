@@ -32,6 +32,7 @@ public class BoletaController {
     }
 
     @GetMapping("/usuario/{email}")
+    @ResponseBody  // Aseguramos que sea serializado correctamente a JSON
     public List<Boleta> buscarPorUsuario(@PathVariable String email) {
         return service.buscarPorUsuario(email);
     }
