@@ -17,19 +17,16 @@ public class EventoController {
         this.service = service;
     }
 
-    // ✔ LISTAR EVENTOS
     @GetMapping
     public List<Evento> listar() {
         return service.listar();
     }
 
-    // ✔ CREAR EVENTO
     @PostMapping
     public Evento crear(@RequestBody Evento evento) {
         return service.crear(evento);
     }
 
-    // ✔ ELIMINAR EVENTO
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
         service.eliminar(id);

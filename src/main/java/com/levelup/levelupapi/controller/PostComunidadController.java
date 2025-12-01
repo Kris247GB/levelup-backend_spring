@@ -26,7 +26,6 @@ public class PostComunidadController {
         this.comentarioService = comentarioService;
     }
 
-    // ---------------------- POSTS ----------------------
 
     @GetMapping("/posts")
     @Operation(summary = "Listar todos los posts de la comunidad")
@@ -46,7 +45,6 @@ public class PostComunidadController {
         postService.eliminar(id);
     }
 
-    // ---------------------- COMENTARIOS ----------------------
 
     @GetMapping("/posts/{postId}/comentarios")
     @Operation(summary = "Obtener comentarios de un post")
@@ -61,7 +59,6 @@ public class PostComunidadController {
         return comentarioService.crearComentario(postId, comentario);
     }
 
-    // ---------------------- LIKES ----------------------
 
     @PostMapping("/comentarios/{id}/like")
     @Operation(summary = "Dar like a un comentario")
@@ -69,7 +66,6 @@ public class PostComunidadController {
         return comentarioService.like(id);
     }
 
-    // ---------------------- RESPUESTAS ----------------------
 
     @PostMapping("/comentarios/{id}/respuesta")
     @Operation(summary = "Responder un comentario")
