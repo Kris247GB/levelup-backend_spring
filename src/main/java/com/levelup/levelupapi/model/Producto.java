@@ -42,7 +42,7 @@ public class Producto {
 
     public Producto() {}
 
-    // ---------- GETTERS ----------
+
     public Long getId() { return id; }
     public String getCodigo() { return codigo; }
     public String getNombre() { return nombre; }
@@ -53,7 +53,7 @@ public class Producto {
     public Integer getStock() { return stock; }
     public Boolean getDestacado() { return destacado; }
 
-    // ---------- SETTERS ----------
+
     public void setId(Long id) { this.id = id; }
     public void setCodigo(String codigo) { this.codigo = codigo; }
     public void setNombre(String nombre) { this.nombre = nombre; }

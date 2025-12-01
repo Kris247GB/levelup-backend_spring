@@ -14,7 +14,7 @@ public class Evento {
     private String descripcion;
     private LocalDate fecha;
     private String lugar;
-    private String imagen; // opcional: url de imagen
+    private String imagen;
 
     public Long getId() { return id; }
 

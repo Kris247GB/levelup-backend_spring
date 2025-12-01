@@ -12,7 +12,7 @@ public class ComentarioComunidad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long postId;            // A qué post pertenece
+    private Long postId;
     private String autor;
     private String texto;
     private LocalDateTime fecha = LocalDateTime.now();

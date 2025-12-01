@@ -10,14 +10,13 @@ public class PostComunidad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String autor;   // nombre o email del usuario
-    private String titulo;  // encabezado del post
+    private String autor;
+    private String titulo;
     private String contenido;
     private int likes = 0;
 
     private LocalDateTime fecha = LocalDateTime.now();
 
-    // Getters y Setters
     public Long getId() { return id; }
 
     public String getAutor() { return autor; }
