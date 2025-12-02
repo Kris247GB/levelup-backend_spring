@@ -1,9 +1,13 @@
 package com.levelup.levelupapi.repository;
 
-import com.levelup.levelupapi.security.Usuario;
+import com.levelup.levelupapi.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+
     Optional<Usuario> findByEmail(String email);
+
+    Optional<Usuario> findByCodigoReferido(String codigoReferido);
 }
