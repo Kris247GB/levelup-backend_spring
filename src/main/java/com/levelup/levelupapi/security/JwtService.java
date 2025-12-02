@@ -1,33 +1,41 @@
 package com.levelup.levelupapi.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Service
 public class JwtService {
 
-    private final Key clave = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final SecretKey key = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256);
 
-    public String generarToken(String email) {
+    public String generarToken(String email, String rol) {
         return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 3600 * 1000))
-                .signWith(clave)
+                .subject(email)
+                .claim("rol", rol)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 3600_000)) // 1 hora
+                .signWith(key)
                 .compact();
     }
 
-    public String obtenerEmailDesdeToken(String token) {
+    private Claims extraerClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(clave)
+                .verifyWith(key)   // ← ESTO EXISTE EN 0.12.5
                 .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    public String obtenerEmailDesdeToken(String token) {
+        return extraerClaims(token).getSubject();
+    }
+
+    public String obtenerRolDesdeToken(String token) {
+        return extraerClaims(token).get("rol", String.class);
     }
 }

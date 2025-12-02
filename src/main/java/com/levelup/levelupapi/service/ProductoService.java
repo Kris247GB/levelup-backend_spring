@@ -27,12 +27,11 @@ public class ProductoService {
     }
 
     public Producto getByCodigo(String codigo) {
-        Producto producto = repo.findByCodigo(codigo);
-        if (producto == null) {
-            throw new ResourceNotFoundException("Producto no encontrado con código: " + codigo);
-        }
-        return producto;
+        return repo.findByCodigo(codigo)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Producto no encontrado con código: " + codigo));
     }
+
 
     public Producto create(Producto p) {
         return repo.save(p);

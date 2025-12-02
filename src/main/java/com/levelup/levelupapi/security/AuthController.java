@@ -51,12 +51,20 @@ public class AuthController {
 
         repo.save(u);
 
-        return ResponseEntity.ok(Map.of(
-                "mensaje", "Usuario registrado correctamente",
-                "codigoReferido", u.getCodigoReferido()
-        ));
-    }
+        // 🔐 Generar token directo
+        String token = jwt.generarToken(u.getEmail(), u.getRol());
 
+        return ResponseEntity.ok(
+                Map.of(
+                        "mensaje", "Usuario registrado correctamente",
+                        "token", token,
+                        "email", u.getEmail(),
+                        "nombre", u.getNombre(),
+                        "rol", u.getRol(),
+                        "codigoReferido", u.getCodigoReferido()
+                )
+        );
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
@@ -71,7 +79,8 @@ public class AuthController {
             return ResponseEntity.status(401).body(Map.of("error", "Credenciales incorrectas"));
         }
 
-        String token = jwt.generarToken(req.getEmail());
+        String token = jwt.generarToken(usuario.getEmail(), usuario.getRol());
+
 
         return ResponseEntity.ok(
                 Map.of(

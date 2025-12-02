@@ -1,23 +1,51 @@
 package com.levelup.levelupapi;
 
 import com.levelup.levelupapi.model.Producto;
+import com.levelup.levelupapi.model.Usuario;
 import com.levelup.levelupapi.repository.ProductoRepository;
+import com.levelup.levelupapi.repository.UsuarioRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DataLoader implements CommandLineRunner {
 
     private final ProductoRepository productoRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder encoder;
 
-    public DataLoader(ProductoRepository productoRepository) {
+    public DataLoader(
+            ProductoRepository productoRepository,
+            UsuarioRepository usuarioRepository,
+            PasswordEncoder encoder
+    ) {
         this.productoRepository = productoRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.encoder = encoder;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        // Agregar productos de prueba solo si la base de datos está vacía
+
+        // 🔹 1. Crear ADMIN si no existe
+        if (usuarioRepository.findByEmail("admin@levelup.cl").isEmpty()) {
+
+            Usuario admin = new Usuario();
+            admin.setNombre("Administrador");
+            admin.setEmail("admin@levelup.cl");
+            admin.setPassword(encoder.encode("admin123"));  // contraseña segura
+            admin.setRol("ADMIN");
+            admin.setMayor18(true);
+
+            usuarioRepository.save(admin);
+
+            System.out.println("🔐 Usuario ADMIN creado: admin@levelup.cl / admin123");
+        }
+
+        // 🔹 2. Cargar productos solo si la base está vacía
         if (productoRepository.count() == 0) {
+
             Producto producto1 = new Producto();
             producto1.setCodigo("P001");
             producto1.setNombre("Control Xbox");
@@ -172,8 +200,7 @@ public class DataLoader implements CommandLineRunner {
             productoRepository.save(producto12);
             productoRepository.save(producto13);
             productoRepository.save(producto14);
-
-            System.out.println("Productos de prueba cargados!");
+            System.out.println("🛒 Productos de prueba cargados!");
         }
     }
 }
