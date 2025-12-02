@@ -19,7 +19,7 @@ public class Usuario {
     @Column(nullable = false)
     private String password;
 
-    private String rol = "USER";
+    private String rol = "USER"; // USER o ADMIN
 
     private Boolean mayor18;
 
@@ -49,7 +49,7 @@ public class Usuario {
     public void setPassword(String password) { this.password = password; }
 
     public String getRol() { return rol; }
-    public void setRol(String rol) { this.rol = rol; }
+    public void setRol(String rol) { this.rol = rol != null ? rol.toUpperCase() : "USER"; }
 
     public Boolean getMayor18() { return mayor18; }
     public void setMayor18(Boolean mayor18) { this.mayor18 = mayor18; }

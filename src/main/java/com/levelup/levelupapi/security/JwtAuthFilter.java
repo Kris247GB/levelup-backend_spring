@@ -1,6 +1,5 @@
 package com.levelup.levelupapi.security;
 
-import com.levelup.levelupapi.model.Usuario;
 import com.levelup.levelupapi.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,7 +11,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 
 @Component
@@ -46,10 +44,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if (usuario.isPresent() && SecurityContextHolder.getContext().getAuthentication() == null) {
 
+            String rol = usuario.get().getRol().toUpperCase();
+            String authority = "ROLE_" + rol;
+
             var userDetails = User
                     .withUsername(email)
                     .password(usuario.get().getPassword())
-                    .authorities("USER")
+                    .authorities(authority)
                     .build();
 
             var authToken = new UsernamePasswordAuthenticationToken(

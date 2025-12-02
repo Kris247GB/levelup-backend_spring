@@ -47,20 +47,7 @@ public class AuthController {
         u.setPassword(encoder.encode(req.getPassword()));
         u.setFechaRegistro(LocalDateTime.now());
         u.setCodigoReferido(generarCodigo());
-
-        if (req.getEmail().toLowerCase().contains("duoc")) {
-            u.setDescuentoDuoc(20);
-        }
-
-        if (req.getCodigoReferente() != null && !req.getCodigoReferente().isBlank()) {
-            var referidor = repo.findByCodigoReferido(req.getCodigoReferente().toUpperCase());
-            if (referidor.isPresent()) {
-                u.setLevelUpPoints(50);
-                var ref = referidor.get();
-                ref.setLevelUpPoints(ref.getLevelUpPoints() + 100);
-                repo.save(ref);
-            }
-        }
+        u.setRol("USER");
 
         repo.save(u);
 
@@ -70,13 +57,6 @@ public class AuthController {
         ));
     }
 
-    private String generarCodigo() {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        Random r = new Random();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 6; i++) sb.append(chars.charAt(r.nextInt(chars.length())));
-        return sb.toString();
-    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
@@ -101,5 +81,13 @@ public class AuthController {
                         "rol", usuario.getRol()
                 )
         );
+    }
+
+    private String generarCodigo() {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random r = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 6; i++) sb.append(chars.charAt(r.nextInt(chars.length())));
+        return sb.toString();
     }
 }
