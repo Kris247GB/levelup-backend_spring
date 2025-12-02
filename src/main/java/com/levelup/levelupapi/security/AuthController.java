@@ -26,9 +26,6 @@ public class AuthController {
         this.jwt = jwt;
     }
 
-    // =====================================================
-    // ============= REGISTRO ==============================
-    // =====================================================
     @PostMapping("/register")
     public ResponseEntity<?> registrar(@RequestBody RegisterRequest req) {
 
@@ -46,7 +43,6 @@ public class AuthController {
         u.setNombre(req.getNombre());
         u.setEmail(req.getEmail());
         u.setMayor18(req.getMayor18());
-        u.setPreferencias(req.getPreferencias());
         u.setCodigoReferente(req.getCodigoReferente());
         u.setPassword(encoder.encode(req.getPassword()));
         u.setFechaRegistro(LocalDateTime.now());
@@ -82,9 +78,6 @@ public class AuthController {
         return sb.toString();
     }
 
-    // =====================================================
-    // ============= LOGIN =================================
-    // =====================================================
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
 

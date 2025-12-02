@@ -18,6 +18,9 @@ public class UsuarioController {
         this.repo = repo;
     }
 
+    // =====================================================
+    // OBTENER PERFIL
+    // =====================================================
     @GetMapping("/perfil")
     public ResponseEntity<?> obtenerPerfil(@RequestHeader("Authorization") String header) {
 
@@ -46,10 +49,7 @@ public class UsuarioController {
             );
         }
 
-        // ⚠️ IMPORTANTE:
-        // Map.of() soporta máximo 10 pares clave-valor
-        // Por eso pasamos a Map<String,Object>
-
+        // Armamos un Map manual para evitar límite de Map.of()
         java.util.Map<String, Object> datos = new java.util.HashMap<>();
         datos.put("id", usuario.getId());
         datos.put("nombre", usuario.getNombre());
@@ -64,5 +64,36 @@ public class UsuarioController {
         datos.put("fechaRegistro", usuario.getFechaRegistro());
 
         return ResponseEntity.ok(datos);
+    }
+
+    // =====================================================
+    // ACTUALIZAR PUNTOS DESPUÉS DE COMPRA
+    // =====================================================
+    @PutMapping("/{email}/actualizar-puntos")
+    public ResponseEntity<?> actualizarPuntos(
+            @PathVariable String email,
+            @RequestBody java.util.Map<String, Integer> body) {
+
+        Integer puntos = body.get("levelUpPoints");
+        if (puntos == null) {
+            return ResponseEntity.badRequest().body(
+                    java.util.Map.of("error", "Puntos no enviados")
+            );
+        }
+
+        var usuarioOpt = repo.findByEmail(email);
+        if (usuarioOpt.isEmpty()) {
+            return ResponseEntity.status(404).body(
+                    java.util.Map.of("error", "Usuario no encontrado")
+            );
+        }
+
+        Usuario u = usuarioOpt.get();
+        u.setLevelUpPoints(puntos);
+        repo.save(u);
+
+        return ResponseEntity.ok(
+                java.util.Map.of("mensaje", "Puntos actualizados correctamente")
+        );
     }
 }
